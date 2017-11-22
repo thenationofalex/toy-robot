@@ -1,0 +1,9 @@
+.idea/
+*~
+*.lock
+*.DS_Store
+*.swp
+*.out
+*__pycache__
+.vscode
+*env/
