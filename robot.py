@@ -10,33 +10,31 @@ class Robot(object):
         """Set base parameters"""
         self.position = {'x': 0, 'y': 0, 'f': 'n'}
         self.board_bounds = range(0, 4)
+        self.compass = ['n', 'e', 's', 'w']
 
     def announce_position(self):
         """Announce position of the robot"""
-        print(self.position['x'] + ',' + self.position['y'] + ',' + self.position['f'] + '\n')
+        if self.position['f'] == 'n':
+            pos_f = 'NORTH'
+        elif self.position['f'] == 's':
+            pos_f = 'SOUTH'
+        elif self.position['f'] == 'e':
+            pos_f = 'EAST'
+        elif self.position['f'] == 'w':
+            pos_f = 'WEST'
+        print(self.position['x'] + ',' + self.position['y'] + ',' + pos_f + '\n')
 
     def update_robots_position(self, pos_x=False, pos_y=False, pos_f=False):
         """Update robots position on the board"""
 
         self.position['x'] = pos_x if pos_x else self.position['x']
         self.position['y'] = pos_y if pos_y else self.position['y']
-
-        if pos_f == 'n':
-            pos_f = 'NORTH'
-        elif pos_f == 's':
-            pos_f = 'SOUTH'
-        elif pos_f == 'e':
-            pos_f = 'EAST'
-        elif pos_f == 'w':
-            pos_f = 'WEST'
-        else:
-            pos_f = self.position['f']
-
-        self.position['f'] = pos_f
+        self.position['f'] = pos_f if pos_f else self.position['f']
         self.announce_position()
 
     def validate_place(self, command):
         """Validate place command"""
+        # ValueError: invalid literal for int() with base 10: ''
 
         if len(command) != 2:
             print('Error')
@@ -62,23 +60,24 @@ class Robot(object):
 
     def move_robot(self):
         """Move the robot"""
+        current_position = self.compass
         pass
 
     def orientate_robot(self, direction):
         """Orientate the robot"""
-        compass = ['n', 'e', 's', 'w']
-        current_position = compass.index(self.position['f'])
+        
+        current_position = self.compass.index(self.position['f'])
 
-        if direction == 'left':
+        if direction == 'right':
             if current_position == 3:
-                self.update_robots_position(False, False, compass[0])
+                self.update_robots_position(False, False, self.compass[0])
             else:
-                self.update_robots_position(False, False, compass[current_position + 1])
+                self.update_robots_position(False, False, self.compass[current_position + 1])
         else:
             if current_position == 0:
-                self.update_robots_position(False, False, compass[3])
+                self.update_robots_position(False, False, self.compass[3])
             else:
-                self.update_robots_position(False, False, compass[current_position - 1])
+                self.update_robots_position(False, False, self.compass[current_position - 1])
 
     @classmethod
     def menu(cls):
@@ -110,6 +109,8 @@ class Robot(object):
                 self.validate_place(command.split())
             elif command == 'exit':
                 break
+            else:
+                print('err')
 
 
 PROGRAM = Robot()
