@@ -93,8 +93,7 @@ class Robot(object):
     @classmethod
     def menu(cls):
         """Return cli menu"""
-        return print('Available commands:\nPLACE X, Y, F\nMOVE\nLEFT\n\
-                      RIGHT\nREPORT\nEXIT\n\n')
+        return print('Available commands:\n- PLACE X, Y, F\n- MOVE\n- LEFT\n- RIGHT\n- REPORT\n- EXIT\n\n')
 
     def main(self):
         """Start robot simulator"""
@@ -103,7 +102,7 @@ class Robot(object):
 
         while start_command is False:
             start_command = self.validate_place(
-                input('Please enter a starting position:\n\n').lower().split()
+                input('Please enter a starting position (place X,Y,F):\n\n').lower().split()
             )
 
         self.menu()
