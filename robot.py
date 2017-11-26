@@ -23,27 +23,34 @@ class Robot(object):
 
         place = command[1].split(',')
 
-        if isinstance(place[0], int) or isinstance(place[1], int):
-            if command[0] != 'place':
-                print('Error please enter a valid command')
-                return False
-            elif int(place[0]) not in self.board_bounds:
-                print('Error please enter a value between 0 & 4')
-                return False
-            elif int(place[1]) not in self.board_bounds:
-                print('Error please enter a value between 0 & 4')
-                return False
-            elif place[2] != 'north' and place[2] != 'south' \
-                and place[2] != 'east' and place[2] != 'west':
-                print('Error with starting position F. Please enter either NORTH, SOUTH, WEST or EAST')
-                return False
-            else:
-                self.position['x'] = place[0]
-                self.position['y'] = place[1]
-                self.position['f'] = place[2]
-                return True
-        else:
+        try:
+            int(place[0])
+        except ValueError:
             return False
+
+        try:
+            int(place[1])
+        except ValueError:
+            return False
+
+        if command[0] != 'place':
+            print('Error please enter a valid command')
+            return False
+        elif int(place[0]) not in self.board_bounds:
+            print('Error please enter a value between 0 & 4')
+            return False
+        elif int(place[1]) not in self.board_bounds:
+            print('Error please enter a value between 0 & 4')
+            return False
+        elif place[2] != 'north' and place[2] != 'south' \
+            and place[2] != 'east' and place[2] != 'west':
+            print('Error with starting position F. Please enter either NORTH, SOUTH, WEST or EAST')
+            return False
+        else:
+            self.position['x'] = place[0]
+            self.position['y'] = place[1]
+            self.position['f'] = place[2]
+            return True
 
     def move_robot(self):
         """Move the robot
