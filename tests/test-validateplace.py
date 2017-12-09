@@ -11,20 +11,19 @@ class TestValidatePlace(unittest.TestCase):
 
     def setUp(self):
         self.expected = ['0', '0', 'north']
+        self.test_board = range(5)
 
     def test_valid_place_command(self):
         """Valid command"""
         test_command = 'PLACE 0,0,NORTH'
-        test_board = range(5)
 
-        self.assertListEqual(validate_place(test_command, test_board), self.expected)
+        self.assertListEqual(validate_place(test_command, self.test_board), self.expected)
 
     def test_invalid_place_command(self):
         """Invalid command"""
         test_command = 'PLACE 5,5,FOO'
-        test_board = range(5)
 
-        self.assertFalse(validate_place(test_command, test_board))
+        self.assertFalse(validate_place(test_command, self.test_board))
 
 if __name__ == '__main__':
     unittest.main()

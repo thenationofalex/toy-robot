@@ -5,6 +5,7 @@ Version 0.0.1
 
 from modules.validateplace import validate_place
 from modules.orientate import orientate_robot
+from modules.move import move_robot
 
 class Robot(object):
     """Toy Robot Simulator"""
@@ -12,36 +13,12 @@ class Robot(object):
     def __init__(self):
         """Set base parameters"""
         self.board_bounds = range(5)
-        self.position = {'x': 0, 'y': 0, 'f': 'n'}
+        self.position = {'x': 0, 'y': 0, 'f': 'north'}
 
     def announce_position(self):
         """Announce position of the robot"""
         print('x=' + str(self.position['x']) + ', y=' + \
               str(self.position['y']) + ', f=' + str(self.position['f']) + '\n')
-
-    def move_robot(self):
-        """Move the robot
-            If robot is facing north or south move along the X axis
-            Else move along the Y axis
-        """
-        move_error = False
-
-        if self.position['f'] == 'north' and int(self.position['y']) + 1 in self.board_bounds:
-            self.position['y'] = int(self.position['y']) + 1
-
-        elif self.position['f'] == 'south' and int(self.position['y']) - 1 in self.board_bounds:
-            self.position['y'] = int(self.position['y']) - 1
-
-        elif self.position['f'] == 'west' and int(self.position['x']) - 1 in self.board_bounds:
-            self.position['x'] = int(self.position['x']) - 1
-
-        elif self.position['f'] == 'east' and int(self.position['x']) + 1 in self.board_bounds:
-            self.position['x'] = int(self.position['x']) + 1
-
-        else:
-            move_error = True
-
-        return move_error
 
     @classmethod
     def menu(cls):
@@ -68,15 +45,24 @@ class Robot(object):
             command = input().lower()
 
             if command == 'move':
-                move = self.move_robot()
+                move = move_robot(self.position, self.board_bounds)
                 if move:
-                    print('Movement not allowed')
+                    self.position['x'] = move[0]
+                    self.position['y'] = move[1]
+                    self.position['f'] = move[2]
+
             elif command == 'left' or command == 'right':
                 self.position['f'] = orientate_robot(command, self.position['f'])
+
             elif command == 'report':
                 self.announce_position()
+
             elif 'place' in command:
-                validate_place(command, self.board_bounds)
+                update_place = validate_place(command, self.board_bounds)
+                self.position['x'] = update_place[0]
+                self.position['y'] = update_place[1]
+                self.position['f'] = update_place[2]
+                
             elif command == 'exit':
                 break
             else:
