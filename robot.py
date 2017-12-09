@@ -3,6 +3,9 @@ Toy Robot Simulator
 Version 0.0.1
 """
 
+from modules.validateplace import validate_place
+from modules.orientate import orientate_robot
+
 class Robot(object):
     """Toy Robot Simulator"""
 
@@ -15,42 +18,6 @@ class Robot(object):
         """Announce position of the robot"""
         print('x=' + str(self.position['x']) + ', y=' + \
               str(self.position['y']) + ', f=' + str(self.position['f']) + '\n')
-
-    def validate_place(self, command):
-        """Validate place command"""
-        if len(command) != 2:
-            return False
-
-        place = command[1].split(',')
-
-        try:
-            int(place[0])
-        except ValueError:
-            return False
-
-        try:
-            int(place[1])
-        except ValueError:
-            return False
-
-        if command[0] != 'place':
-            print('Error please enter a valid command')
-            return False
-        elif int(place[0]) not in self.board_bounds:
-            print('Error please enter a value between 0 & 4')
-            return False
-        elif int(place[1]) not in self.board_bounds:
-            print('Error please enter a value between 0 & 4')
-            return False
-        elif place[2] != 'north' and place[2] != 'south' \
-            and place[2] != 'east' and place[2] != 'west':
-            print('Error with starting position F. Please enter either NORTH, SOUTH, WEST or EAST')
-            return False
-        else:
-            self.position['x'] = place[0]
-            self.position['y'] = place[1]
-            self.position['f'] = place[2]
-            return True
 
     def move_robot(self):
         """Move the robot
@@ -76,30 +43,6 @@ class Robot(object):
 
         return move_error
 
-    def orientate_robot(self, direction):
-        """Orientate the robot"""
-        compass = ['north', 'south', 'east', 'west']
-        current_position = compass.index(self.position['f'])
-
-        if direction == 'right':
-            if current_position == 0:
-                self.position['f'] = compass[2]
-            elif current_position == 1:
-                self.position['f'] = compass[3]
-            elif  current_position == 2:
-                self.position['f'] = compass[1]
-            elif current_position == 3:
-                self.position['f'] = compass[0]
-        elif direction == 'left':
-            if current_position == 0:
-                self.position['f'] = compass[3]
-            elif current_position == 1:
-                self.position['f'] = compass[2]
-            elif  current_position == 2:
-                self.position['f'] = compass[0]
-            elif current_position == 3:
-                self.position['f'] = compass[1]
-
     @classmethod
     def menu(cls):
         """Return cli menu"""
@@ -111,10 +54,14 @@ class Robot(object):
         start_command = False
 
         while start_command is False:
-            start_command = self.validate_place(
-                input('Please enter a starting position (place X,Y,F):\n\n').lower().split()
+            start_command = validate_place(
+                input('Please enter a starting position (place X,Y,F):\n\n'),
+                self.board_bounds
             )
 
+        self.position['x'] = start_command[0]
+        self.position['y'] = start_command[1]
+        self.position['f'] = start_command[2]
         self.menu()
 
         while True:
@@ -125,11 +72,11 @@ class Robot(object):
                 if move:
                     print('Movement not allowed')
             elif command == 'left' or command == 'right':
-                self.orientate_robot(command)
+                self.position['f'] = orientate_robot(command, self.position['f'])
             elif command == 'report':
                 self.announce_position()
             elif 'place' in command:
-                self.validate_place(command.split())
+                validate_place(command, self.board_bounds)
             elif command == 'exit':
                 break
             else:

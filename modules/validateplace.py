@@ -26,6 +26,9 @@ def validate_place(command, board_bounds):
         If the first or second item in the list isn't an integer
         return False
 
+    IndexError
+        If command isn't valid return False
+
     """
     valid = None
     command = command.lower().split()
@@ -33,7 +36,11 @@ def validate_place(command, board_bounds):
     if len(command) != 2:
         valid = None
 
-    place = command[1].split(',')
+    try:
+        place = command[1].split(',')
+    except IndexError:
+        print('Error please enter a valid command')
+        valid = None
 
     try:
         int(place[0])
