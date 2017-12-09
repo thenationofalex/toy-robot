@@ -28,6 +28,7 @@ def validate_place(command, board_bounds):
 
     """
     valid = True
+    command = command.lower().split()
 
     if len(command) != 2:
         valid = False
