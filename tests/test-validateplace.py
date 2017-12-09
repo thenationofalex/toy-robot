@@ -7,13 +7,17 @@ import unittest
 from modules.validateplace import validate_place
 
 class TestValidatePlace(unittest.TestCase):
+    """Test Validate Place"""
+
+    def setUp(self):
+        self.expected = ['0', '0', 'north']
 
     def test_valid_place_command(self):
         """Valid command"""
         test_command = 'PLACE 0,0,NORTH'
         test_board = range(5)
 
-        self.assertTrue(validate_place(test_command, test_board))
+        self.assertListEqual(validate_place(test_command, test_board), self.expected)
 
     def test_invalid_place_command(self):
         """Invalid command"""
