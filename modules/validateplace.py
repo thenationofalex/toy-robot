@@ -30,40 +30,38 @@ def validate_place(command, board_bounds):
         If command isn't valid return False
 
     """
-    valid = None
     command = command.lower().split()
+    error_message = 'Error please enter a valid command'
 
     if len(command) != 2:
-        valid = None
+        print(error_message)
+        return None
 
-    try:
-        place = command[1].split(',')
-    except IndexError:
-        print('Error please enter a valid command')
-        valid = None
+    place = command[1].split(',')
 
     try:
         int(place[0])
     except ValueError:
-        valid = None
+        return None
 
     try:
         int(place[1])
     except ValueError:
-        valid = None
+        return None
 
     if command[0] != 'place':
-        print('Error please enter a valid command')
-        valid = None
+        print(error_message)
+        return None
+
     elif int(place[0]) not in board_bounds and \
          int(place[1]) not in board_bounds:
         print('Error please enter a value between 0 & 4')
-        valid = None
+        return None
+
     elif place[2] != 'north' and place[2] != 'south' \
          and place[2] != 'east' and place[2] != 'west':
         print('Error with starting position F. Please enter either NORTH, SOUTH, WEST or EAST')
-        valid = None
-    else:
-        valid = [place[0], place[1], place[2]]
+        return None
 
-    return valid
+    else:
+        return [place[0], place[1], place[2]]

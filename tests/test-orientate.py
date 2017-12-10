@@ -12,7 +12,7 @@ class TestOrientateRobot(unittest.TestCase):
     def setUp(self):
         """Setup"""
         self.direction = 'left'
-        self.current_position = 2
+        self.current_position = 'north'
 
     def test_orientate_command(self):
         """Test we can orientate the robot"""

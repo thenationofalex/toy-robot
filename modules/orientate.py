@@ -12,6 +12,9 @@ def orientate_robot(direction, position):
     direction : str
         Direction to orientate the robot left or right
 
+    position : str
+        Position robot is facing e.g: north
+
     Returns
     -------
     Str
