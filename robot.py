@@ -53,7 +53,7 @@ class Robot(object):
                     self.__update_position(move)
 
             elif command == 'left' or command == 'right':
-                self.position['f'] = orientate_robot(command, self.position['f'])
+                self.__update_position(orientate_robot(command, self.position))
 
             elif command == 'report':
                 self.__announce_position()

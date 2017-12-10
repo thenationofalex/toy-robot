@@ -9,7 +9,7 @@ def move_robot(position, board_bounds):
 
     Parameters
     ----------
-    position : List
+    position : Dict
         Robots current position on the board
 
     board_bounds: range

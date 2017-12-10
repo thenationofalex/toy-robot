@@ -12,17 +12,17 @@ def orientate_robot(direction, position):
     direction : str
         Direction to orientate the robot left or right
 
-    position : str
-        Position robot is facing e.g: north
+    position : List
+        Position of robot
 
     Returns
     -------
-    Str
-        Orientation of the robot
+    List
+        Update position of the robot
 
     """
     compass = ['north', 'south', 'east', 'west']
-    current_position = compass.index(position)
+    current_position = compass.index(position['f'])
     orientation = None
 
     if direction == 'right':
@@ -44,4 +44,4 @@ def orientate_robot(direction, position):
         elif current_position == 3:
             orientation = compass[1]
 
-    return orientation
+    return [position['x'], position['y'], orientation]
