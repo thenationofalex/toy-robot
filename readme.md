@@ -31,6 +31,7 @@ E.g: `nosetests tests/test-move.py`
 
 - `robot.py` Main application
     - `modules` Application dependencies
+        - `inputcontroller.py` Handle input from user
         - `move.py` Control Robots movement
         - `orientate.py` Orientate Robot
         - `validateplace.py` Validate Robots position on the board
