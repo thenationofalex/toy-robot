@@ -4,8 +4,7 @@ Version 1.0.0
 """
 
 from modules.validateplace import validate_place
-from modules.orientate import orientate_robot
-from modules.move import move_robot
+from modules.inputcontroller import input_controller, command_menu, start_command
 
 class Robot(object):
     """Toy Robot Simulator"""
@@ -20,52 +19,24 @@ class Robot(object):
         self.position['y'] = new_position[1]
         self.position['f'] = new_position[2]
 
-    def __announce_position(self):
-        """Announce position of the robot"""
-        print('x=' + str(self.position['x']) + ', y=' + \
-              str(self.position['y']) + ', f=' + str(self.position['f']) + '\n')
-
-    @classmethod
-    def menu(cls):
-        """Return cli menu"""
-        return print('Available commands:\n- PLACE X, Y, F\n- MOVE\n- LEFT\n- RIGHT\n- REPORT\n- EXIT\n\n')
-
     def main(self):
         """Start robot simulator"""
-        print('Toy Robot Simulator\n')
-        start_command = None
+        print('Toy Robot Simulator v1.0.0\n')
+        initial_command = None
 
-        while start_command is None:
-            start_command = validate_place(
-                input('Please enter a starting position (place X,Y,F):\n\n'),
-                self.board_bounds
-            )
-            if start_command is not None:
-                self.__update_position(start_command)
-                self.menu()
+        while initial_command is None:
+            initial_command = validate_place(input(start_command), self.board_bounds)
+
+            if initial_command is not None:
+                self.__update_position(initial_command)
+                command_menu()
 
         while True:
-            command = input().lower()
-
-            if command == 'move':
-                move = move_robot(self.position, self.board_bounds)
-                if move:
-                    self.__update_position(move)
-
-            elif command == 'left' or command == 'right':
-                self.__update_position(orientate_robot(command, self.position))
-
-            elif command == 'report':
-                self.__announce_position()
-
-            elif 'place' in command:
-                update_place = validate_place(command, self.board_bounds)
-                self.__update_position(update_place)
-
-            elif command == 'exit':
-                break
+            command = input_controller(input().lower(), self.position, self.board_bounds)
+            if command is not False:
+                self.__update_position(command)
             else:
-                print('Invalid command')
+                break
 
 PROGRAM = Robot()
 PROGRAM.main()
