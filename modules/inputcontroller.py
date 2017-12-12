@@ -50,7 +50,7 @@ def input_controller(command, position, board_bounds):
 
     Returns
     -------
-    List
+    Dict
         New position if successful, None otherwise or
         exits the program if `exit` is recieved.
 
@@ -64,7 +64,8 @@ def input_controller(command, position, board_bounds):
         return orientate_robot(command, position)
 
     elif command == 'report':
-        return __announce_position(position)
+        __announce_position(position)
+        return position
 
     elif 'place' in command:
         return validate_place(command, board_bounds)
@@ -73,3 +74,4 @@ def input_controller(command, position, board_bounds):
         quit()
     else:
         print('Invalid command')
+        return None

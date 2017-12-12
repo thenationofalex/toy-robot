@@ -13,7 +13,7 @@
 ## Setup
 
 - _IF using virtualenv be sure to activate it before starting the application e.g: `source env/bin/activate`_
-- Install Python Dependencies via PIP `pip3 install -r requirements.txt`
+- Install the required Python Dependencies via PIP `pip3 install -r requirements.txt`
 
 ## Instructions and Usage
 
@@ -29,13 +29,26 @@ E.g: `nosetests tests/test-move.py`
 
 ## Structure
 
+The entry point to the application is `robot.py`.
+This loads the modules `validateplace.py` and `inputcontroller.py`.
+
+We use `validateplace.py` to ensure that the first command is only **PLACE X,Y,F**.
+
+After the first loop is successfully passed we let `inputcontroller.py` validate
+all commands. If a command is valid it then passes the request on to the appropriate module
+otherwise it returns a *Invalid command* message.
+
+The robots position is stored as a [dict](https://docs.python.org/3.5/tutorial/datastructures.html#dictionaries)
+in order to ensure we can read, write and update via a immutable key.
+
 - `robot.py` Main application
     - `modules` Application dependencies
-        - `inputcontroller.py` Handle input from user
-        - `move.py` Control Robots movement
-        - `orientate.py` Orientate Robot
-        - `validateplace.py` Validate Robots position on the board
+        - `inputcontroller.py` Handle and validates input from user
+        - `move.py` Controls Robots movement around the board
+        - `orientate.py` Orientate Robot along a compass
+        - `validateplace.py` Validate and process the place command
     - `tests` Unit tests
+        - `test-inputcontroller.py`
         - `test-move.py`
         - `test-orientate.py`
         - `test-validateplace.py`

@@ -11,9 +11,9 @@ class TestMovingRobot(unittest.TestCase):
 
     def setUp(self):
         self.test_board = range(5)
-        self.test_position = {'x': 1, 'y': 1, 'f': 'south'}
-        self.expected = [1, 0, 'south']
+        self.test_position = {'x': '1', 'y': '1', 'f': 'south'}
+        self.expected =  {'x': '1', 'y': '0', 'f': 'south'}
 
     def test_movement(self):
         """Test we can move the robot"""
-        self.assertListEqual(move_robot(self.test_position, self.test_board), self.expected)
+        self.assertDictEqual(move_robot(self.test_position, self.test_board), self.expected)

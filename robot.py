@@ -15,9 +15,9 @@ class Robot(object):
         self.position = {'x': 0, 'y': 0, 'f': 'north'}
 
     def __update_position(self, new_position):
-        self.position['x'] = new_position[0]
-        self.position['y'] = new_position[1]
-        self.position['f'] = new_position[2]
+        self.position['x'] = new_position['x']
+        self.position['y'] = new_position['y']
+        self.position['f'] = new_position['f']
 
     def main(self):
         """Start robot simulator"""
@@ -25,7 +25,7 @@ class Robot(object):
         initial_command = None
 
         while initial_command is None:
-            initial_command = validate_place(input(start_command), self.board_bounds)
+            initial_command = validate_place(input(start_command()), self.board_bounds)
 
             if initial_command is not None:
                 self.__update_position(initial_command)

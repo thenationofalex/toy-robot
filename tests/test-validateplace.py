@@ -10,14 +10,14 @@ class TestValidatePlace(unittest.TestCase):
     """Test Validate Place"""
 
     def setUp(self):
-        self.expected = ['0', '0', 'north']
+        self.expected =  {'x': '0', 'y': '0', 'f': 'north'}
         self.test_board = range(5)
 
     def test_valid_place_command(self):
         """Valid command"""
         test_command = 'PLACE 0,0,NORTH'
 
-        self.assertListEqual(validate_place(test_command, self.test_board), self.expected)
+        self.assertDictEqual(validate_place(test_command, self.test_board), self.expected)
 
     def test_invalid_place_command(self):
         """Invalid command"""

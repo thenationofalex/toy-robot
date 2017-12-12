@@ -12,8 +12,9 @@ class TestOrientateRobot(unittest.TestCase):
     def setUp(self):
         """Setup"""
         self.direction = 'left'
-        self.current_position = []
+        self.current_position = {'x': '0', 'y': '0', 'f': 'south'}
+        self.expected = {'x': '0', 'y': '0', 'f': 'east'}
 
     def test_orientate_command(self):
         """Test we can orientate the robot"""
-        self.assertListEqual(orientate_robot(self.direction, self.current_position), ['0', '0', 'west'])
+        self.assertDictEqual(orientate_robot(self.direction, self.current_position), self.expected)

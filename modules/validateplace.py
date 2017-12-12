@@ -17,7 +17,7 @@ def validate_place(command, board_bounds):
 
     Returns
     -------
-    List
+    Dict
         Position if successful, None otherwise
 
     Raises
@@ -41,12 +41,8 @@ def validate_place(command, board_bounds):
 
     try:
         int(place[0])
-    except ValueError:
-        return None
-
-    try:
         int(place[1])
-    except ValueError:
+    except (ValueError, IndexError):
         return None
 
     if command[0] != 'place':
@@ -64,4 +60,4 @@ def validate_place(command, board_bounds):
         return None
 
     else:
-        return [place[0], place[1], place[2]]
+        return {'x': place[0], 'y': place[1], 'f': place[2]}
